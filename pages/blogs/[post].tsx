@@ -1,5 +1,4 @@
 import pb from "@/lib/base"
-import { useEffect } from "react";
 
 interface staticPropsContext {
     params: {
@@ -9,9 +8,6 @@ interface staticPropsContext {
 
 
 export default function BlogPost(props:any){
-    useEffect(() => {
-        console.log(props)
-    },[])
     return (
         <div>selam</div>
     )

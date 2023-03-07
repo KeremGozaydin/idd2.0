@@ -3,11 +3,20 @@ import pb from "@/lib/base"
 import { useEffect, useState } from "react";
 import { Record } from "pocketbase";
 import Image from "next/image";
+import ImageCard from "@/components/ColumnCard";
+import { isJSDocImplementsTag } from "typescript";
+import { AnyMxRecord } from "dns";
+import { IconLink } from "@/components/IconLink";
+import { LinkedIn, Mail } from "@mui/icons-material";
 
 interface uye extends Record {
     isim: string,
     rol: string,
     img_link: string
+}
+
+function capitalize(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export default function AboutPage() {
@@ -27,29 +36,45 @@ export default function AboutPage() {
                     sx={{
                         display: 'flex',
                         flexFlow: 'wrap row',
-                        gap: '1em 2em',
+                        gap: '2em',
                         justifyContent: "center",
-                        padding: "5em"
+                        padding: "2em"
                     }}
                 >
-                    {uyeler?.map((record) => {
-                        const {isim,rol,img_link} = record.export()
-                        const socials = record.expand['socials(user_id)']
-                        console.log(socials)
+                    {uyeler?.map((record,index) => record.export()).map((record,index) => {
+                        const {isim,rol,img_link} = record
+                        const socials = record.expand["socials(user_id)"]
+
                         return (
-                            <Card>
-                                <CardMedia sx={{
-                                    width: "300px",
-                                    height: "300px",
-                                    position: "relative"
-                                }}>
-                                    <Image src={img_link} alt={isim} fill={true}/>
-                                </CardMedia>
-                                <CardContent>
-                                    <Typography sx={{fontWeight: "500"}} variant="h5">{isim}</Typography>
-                                    <Typography>{rol}</Typography>
-                                </CardContent>
-                            </Card>
+                            <ImageCard 
+                                key={index}
+                                img={img_link} 
+                                alt={isim} 
+                                imgPlacement={index % 2 === 0 ? "left" : "right"} 
+                                contentBoxSx={{
+                                    display:"flex",
+                                    flexFlow: "column nowrap",
+                                    width:"200px",
+                                    textAlign:"center",
+                                    padding:"1em"
+                                }}
+                            >
+                                <Typography sx={{fontWeight: "500"}} variant="h5">{isim}</Typography>
+                                <Typography>{rol}</Typography>
+                                <Box sx={{paddingTop: "1em"}}>
+                                    {socials.map((social:any,index:number) => {
+
+                                        return (
+                                            <IconLink 
+                                                key={index}
+                                                Icon={social.social_type === "linkedin" ? LinkedIn : Mail} 
+                                                link={social.link} 
+                                                title={`${isim} ${capitalize(social.social_type)}`}
+                                            />
+                                        )
+                                    })}
+                                </Box>
+                            </ImageCard>
                         )
                     })}
                 </Box>

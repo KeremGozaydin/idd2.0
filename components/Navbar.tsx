@@ -78,10 +78,11 @@ export default function NavBar() {
                     anchorEl={navMenuAnchorEl}
                     onClose={handleMainMenuClose}
                 >
-                    {Object.values(navlinks).map(link => 
+                    {Object.values(navlinks).map((link:any,index:number) => 
                         router.asPath !== link.path ? 
                         (
                             <Link 
+                                key={index}
                                 style={{flexGrow: 1}} 
                                 onClick={handleMainMenuClose} 
                                 href={link.path}

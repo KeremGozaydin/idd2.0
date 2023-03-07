@@ -1,16 +1,18 @@
-import { Box, Typography } from "@mui/material";
+import { Theme } from "@emotion/react";
+import { Box, SxProps } from "@mui/material";
 import Image from "next/image";
 import { PropsWithChildren } from "react";
-import { Url } from "url";
 
 interface ColumnCard extends PropsWithChildren{
     img: string,
     alt: string,
-    imgPlacement?: 'left' | 'right'
+    imgPlacement?: 'left' | 'right',
+    mainBoxSx?: SxProps<Theme>,
+    contentBoxSx?: SxProps<Theme>
 }
 
 export default function ImageCard(props: ColumnCard) {
-    const {img,alt,children,imgPlacement} = props
+    const {img,alt,children,imgPlacement,mainBoxSx,contentBoxSx} = props
     return (
         <>
             <Box sx={{
@@ -21,7 +23,8 @@ export default function ImageCard(props: ColumnCard) {
                 boxShadow: 4,
                 borderRadius: '16px',
                 padding: '1em',
-                flexDirection: imgPlacement === 'right' ? 'row-reverse' : 'row'
+                flexDirection: imgPlacement === 'right' ? 'row-reverse' : 'row',
+                ...mainBoxSx
             }}>
                 <Box sx={{
                     width: '300px',
@@ -33,7 +36,7 @@ export default function ImageCard(props: ColumnCard) {
                 </Box>
                 {          
                     children ?    
-                    <Box>
+                    <Box sx={contentBoxSx}>
                         {children}
                     </Box>
                     : ''

@@ -12,6 +12,7 @@ import Navbar from '@/components/Navbar';
 import { GlobalContextProvider } from '@/context/global';
 import { Footer } from '@/components/Footer';
 import Contacts from '@/components/Contacts';
+import { Title } from '@mui/icons-material';
 
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -27,6 +28,7 @@ export default function MyApp(props: MyAppProps) {
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>IDD!</title>
       </Head>
       <ThemeProvider theme={theme}>
         <GlobalContextProvider>
