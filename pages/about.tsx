@@ -36,47 +36,57 @@ export default function AboutPage() {
                     sx={{
                         display: 'flex',
                         flexFlow: 'wrap row',
-                        gap: '2em',
                         justifyContent: "center",
-                        padding: "2em"
+                        padding: "2em",
+                        gap: "3em"
                     }}
                 >
-                    {uyeler?.map((record,index) => record.export()).map((record,index) => {
-                        const {isim,rol,img_link} = record
-                        const socials = record.expand["socials(user_id)"]
+                    <Typography variant="h4">Meet our Team!</Typography>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexFlow: 'wrap row',
+                            gap: '2em',
+                            justifyContent: "center"
+                        }}
+                    >
+                        {uyeler?.map((record,index) => record.export()).map((record,index) => {
+                            const {isim,rol,img_link} = record
+                            const socials = record.expand["socials(user_id)"]
 
-                        return (
-                            <ImageCard 
-                                key={index}
-                                img={img_link} 
-                                alt={isim} 
-                                imgPlacement={index % 2 === 0 ? "left" : "right"} 
-                                contentBoxSx={{
-                                    display:"flex",
-                                    flexFlow: "column nowrap",
-                                    width:"200px",
-                                    textAlign:"center",
-                                    padding:"1em"
-                                }}
-                            >
-                                <Typography sx={{fontWeight: "500"}} variant="h5">{isim}</Typography>
-                                <Typography>{rol}</Typography>
-                                <Box sx={{paddingTop: "1em"}}>
-                                    {socials.map((social:any,index:number) => {
+                            return (
+                                <ImageCard 
+                                    key={index}
+                                    img={img_link} 
+                                    alt={isim} 
+                                    imgPlacement={index % 2 === 0 ? "left" : "right"} 
+                                    contentBoxSx={{
+                                        display:"flex",
+                                        flexFlow: "column nowrap",
+                                        width:"200px",
+                                        textAlign:"center",
+                                        padding:"1em"
+                                    }}
+                                >
+                                    <Typography sx={{fontWeight: "500"}} variant="h5">{isim}</Typography>
+                                    <Typography>{rol}</Typography>
+                                    <Box sx={{paddingTop: "1em"}}>
+                                        {socials.map((social:any,index:number) => {
 
-                                        return (
-                                            <IconLink 
-                                                key={index}
-                                                Icon={social.social_type === "linkedin" ? LinkedIn : Mail} 
-                                                link={social.link} 
-                                                title={`${isim} ${capitalize(social.social_type)}`}
-                                            />
-                                        )
-                                    })}
-                                </Box>
-                            </ImageCard>
-                        )
-                    })}
+                                            return (
+                                                <IconLink 
+                                                    key={index}
+                                                    Icon={social.social_type === "linkedin" ? LinkedIn : Mail} 
+                                                    link={social.link} 
+                                                    title={`${isim} ${capitalize(social.social_type)}`}
+                                                />
+                                            )
+                                        })}
+                                    </Box>
+                                </ImageCard>
+                            )
+                        })}
+                    </Box>
                 </Box>
             </div>
         </>
