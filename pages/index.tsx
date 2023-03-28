@@ -1,52 +1,47 @@
 import ColumnCard from '@/components/ColumnCard';
-import { Box, Button, SxProps, Theme, Typography } from '@mui/material';
-import Link from 'next/link';
-import Image from "next/image";
-import { useEffect, useState } from 'react';
-import pb from '@/lib/base';
-import { Record } from 'pocketbase';
+import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import PreviewBox from '@/components/Preview';
 
-let sectionIntroCSS: SxProps<Theme> = {
-    width: '100%',
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    alignItems: 'center',
-    color: 'primary.main',
-    padding: '0.5em',
-    margin: '0.2em'
-}
-
-const uyeler = [
+const uyelerExamples = [
   {
-    img_link : "/media/aydan.webp",
-    isim : "Aydan Cemre Comba",
-    rol : "Kurucu Lider"
+    image : "/media/aydan.webp",
+    text : "Aydan Cemre Comba"
   },
   {
-    img_link : "/media/ibrahim.webp",
-    isim : "İbrahim Musan",
-    rol : "Proje ve Kampanya Koordinatörü"
+    image : "/media/ibrahim.webp",
+    text : "İbrahim Musan"
   },
   {
-    img_link : "/media/defne.webp",
-    isim : "Defne Deniz Özek",
-    rol : "Sosyal Medya Koordinatörü"
+    image : "/media/defne.webp",
+    text : "Defne Deniz Özek"
   }
 ]
 
-interface uye {
-  [key: string]: any
-}
-type uyeler = uye[] | null
+const projelerExamples = [
+  {
+    text: "Asansör Otopark Sistemi",
+    image: "/media/asansör.webp"
+  },
+  {
+    text: "Kaliforniya Solucani ile Tarim",
+    image: "/media/solucan.webp"
+  },
+  {
+    text: "Tahta Solar Panel",
+    image: "/media/Gunes-Paneli-Acisi.webp"
+  }
+]
 
 export default function Home() {
   const router = useRouter();
-  const [indUyeHover,setindUyeHover] = useState<boolean>(false);
 
   return (
     <>
       <div className="page">
+
+        {/* intro header */}
+
         <Box sx={{
           textAlign: "center",
           display: "flex",
@@ -57,103 +52,27 @@ export default function Home() {
           <Typography variant='h3'>Welcome</Typography>
           <Typography>Welcome to the official website of IDD (Iklim Degismeden Degis)!!!</Typography>
         </Box>
+
+        {/* LOGO */}
+
         <ColumnCard size={{height: "500px", width: "500px"}} img='/media/idd-logo.webp' alt='IDD logo'/>
-        <Box sx={{
-          width: '100%',
-          display: 'flex',
-          flexFlow: 'column nowrap',
-          alignItems: 'center',
-          color: 'primary.main',
-          margin: '2em',
-        }}>
-         <Typography variant='h4'>Projects!</Typography>
-         <Typography>You can check our projects
-          <Link href={'/projects'}>
-            <Box sx={{
-              color: '#183efa',
-              transition: 'all 1s',
-              ":hover": {
-                textDecoration: 'underlined'
-              }
-            }} component={'span'}> here</Box>!
-          </Link>
-        </Typography>
-        </Box>
+
+        {/* Projects */}
+
+        <Typography variant="h4" >Projects!</Typography>
+        <Typography sx={{marginBottom: "0.5em"}}>Click the button to view our projects!</Typography>
+
+        <PreviewBox buttonText='View our Projects!' data={projelerExamples} pagePath='/projects'/> 
+        
+        {/* Team */}
+        
         <Typography variant="h4" >Meet our Team!</Typography>
         <Typography sx={{marginBottom: "0.5em"}}>Click the button to see the whole team!</Typography>
-        { !uyeler ? "loading" : (
-          <Box className="index-uye-cont" sx={{
-            width: "600px",
-            height: "350px",
-            overflow: "hidden",
-            display: "flex",
-            borderRadius: '16px',
-            flexFlow: "row nowrap",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "20px black",
-            zIndex: 999,
-            position: "relative"
-          }}
-          >
-            {uyeler.map((uye) => {
-              return (
-                <ColumnCard 
-                  size={{
-                    width: "200px", 
-                    height: "200px"
-                  }} 
-                  img={uye.img_link} 
-                  alt={uye.img_link}
-                  imgPlacement={"vertical"}
-                >
-                  <Typography>{`${uye.isim.split(" ")[0]}!`}</Typography>
-                </ColumnCard>
-              )
-            })}
-            <Box sx={{
-              position: "absolute",
-              top: 0, left: 0, right: 0, bottom: 0,
-              boxShadow: "0 0 10px 6px rgb(0 0 0 / 20%) inset",
-              transition: "all 0.5s",
-              ":hover": {
-                boxShadow: "0 0 20px 12px rgb(0 0 0 / 20%) inset"
-              }
-            }}/>
-            <Button className='index-uye-button' variant='outlined' sx={{
-              position: "absolute",
-              opacity: "0.2",
-              transition: "all 0.5s",
-              ":hover": {
-                backgroundColor: "secondary.main",
-                scale: "1.05"
-              },
-              width: "fit-content",
-              height: "fit-content",
-              backgroundColor: "secondary.main",
-              color: "primary.main",
-              top: "0",
-              left: "0",
-              bottom: "0",
-              right: "0",
-              margin: "auto",
-              zIndex: "999",
-              transform: "scale(1)"
-            }} onClick={() => router.push('/about')}>
-              Meet them! →
-            </Button>
-          </Box>
-        )}
 
-        <Box sx={sectionIntroCSS}>
-          <Typography variant='h5'>Our Blog!</Typography>
-          <Typography>You can check our latest blog posts here!</Typography>
-        </Box>
-
-        <Box sx={sectionIntroCSS}>
-          <Typography variant='h5'> Our Team Members!</Typography>
-          <Typography>You can learn about our team members here!</Typography>
-        </Box>
+        <PreviewBox buttonText='Meet our Team!' data={uyelerExamples} pagePath='/about' excited={true}/>
+        
+        <Typography variant='h4'>Our Blog!</Typography>
+        <Typography>You can check our latest blog posts here!</Typography>
 
       </div>
     </>

@@ -4,8 +4,8 @@ import Image from "next/image";
 import { PropsWithChildren } from "react";
 
 interface sizeprop {
-    height?: string,
-    width?: string
+    height: string,
+    width: string
 }
 
 interface ColumnCard extends PropsWithChildren{
