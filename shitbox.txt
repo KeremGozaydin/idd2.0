@@ -1,0 +1,29 @@
+                                <ImageCard 
+                                    key={index}
+                                    img={img_link} 
+                                    alt={isim} 
+                                    imgPlacement={index % 2 === 0 ? "left" : "right"} 
+                                    contentBoxSx={{
+                                        display:"flex",
+                                        flexFlow: "column nowrap",
+                                        width:"200px",
+                                        textAlign:"center",
+                                        padding:"1em"
+                                    }}
+                                >
+                                    <Typography sx={{fontWeight: "500"}} variant="h5">{isim}</Typography>
+                                    <Typography>{rol}</Typography>
+                                    <Box sx={{paddingTop: "1em"}}>
+                                        {social_links.map((social:any,index:number) => {
+
+                                            return (
+                                                <IconLink 
+                                                    key={index}
+                                                    Icon={social.social_type === "linkedin" ? LinkedIn : Mail} 
+                                                    link={social.link} 
+                                                    title={`${isim} ${capitalize(social.social_type)}`}
+                                                />
+                                            )
+                                        })}
+                                    </Box>
+                                </ImageCard>
