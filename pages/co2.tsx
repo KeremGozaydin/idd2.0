@@ -1,6 +1,8 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, OutlinedInput, InputAdornment, InputLabel, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 export default function CO2() {
+    let [DorG, setDorG] = useState("diesel");
     return (
         <div className="page">
             <Box sx={{
@@ -14,27 +16,29 @@ export default function CO2() {
                 <Box sx={{
                         display: "flex",
                         flexFlow: "column nowrap",
-                        alignItems: "center",
+                        alignItems: "left",
                         border: "1px solid black",
                         boxShadow: 4,
                         width: "500px",
                         height: "500px",
-                        borderRadius: "10px"
+                        padding: "2em",
+                        borderRadius: "10px",
+                        gap:"1em"
                 }}>
-                    <form>
-                        <TextField
-                            id=""
-                            label="Elektrik"
-                            variant="outlined"
-                            helperText=""
-                        />
-                        <TextField
-                            id=""
-                            label=""
-                            variant="outlined"
-                            helperText=""
-                        />
-                    </form>
+                    <TextField
+                        id="electricity"
+                        label="Electricity"
+                        variant="outlined"
+                        helperText="Please enter how much electricity you use in a month in kwh."
+                    />
+                    <FormControl>
+                        <InputLabel sx={{backgroundColor: "white", padding:"0.1em",color:"black"}} htmlFor="gasordiesel">{DorG}</InputLabel>
+                        <OutlinedInput id="gasordiesel" endAdornment={
+                            <InputAdornment position="end">
+                                <Button onClick={() => setDorG(DorG == "diesel" ? "gas" : "diesel")}>{DorG == "diesel" ? "D" : "G"}</Button>
+                            </InputAdornment>
+                        }/>
+                    </FormControl>
                 </Box>
             </Box>
         </div>

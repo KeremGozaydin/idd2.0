@@ -39,10 +39,10 @@ let navlinks: navlinks = {
       "tooltip": "Our Projects",
       "path": "/projects"
     },
-    "/CO2": {
+    "/co2": {
       "text": "CO2",
       "tooltip": "Calculate Your CO2!",
-      "path": "/CO2"
+      "path": "/co2"
     }
 }
 

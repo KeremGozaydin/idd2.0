@@ -1,4 +1,5 @@
 import ImageCard from "@/components/ColumnCard"
+import { DATABASE_ID, PROJECTS_ID, databases } from "@/lib/appwrite"
 import pb from "@/lib/base"
 import { Box, Link, Typography } from "@mui/material"
 import { useEffect } from "react"
@@ -53,7 +54,8 @@ export default function Projects({data}: ProjectsPage) {
 }
 
 export async function getStaticProps() {
-    const data = (await pb.collection('projects').getList()).items.map(record => record.export())
+    const data = (await databases.listDocuments(DATABASE_ID,PROJECTS_ID)).documents
+    
     return {
         props: {
             data

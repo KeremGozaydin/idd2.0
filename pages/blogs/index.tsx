@@ -1,23 +1,60 @@
-import pb from "@/lib/base"
+import ImageCard from "@/components/ColumnCard"
+import { BLOG_ID, DATABASE_ID, databases } from "@/lib/appwrite"
+import { bgColorsBlack, getFirst100char, pickRandFromArr } from "@/lib/usefulFunctions"
+import { Avatar, Box, Tooltip, Typography } from "@mui/material"
 import Link from "next/link"
-import { useEffect } from "react"
 
 export default function BlogPage({data}: any) {
-    useEffect(() => {
-        console.log(data)
-    })
+
     return (
         <div className="page">
-            <div>blogs</div>
-            {data.map((record:any,index:number) => {
-                return <Link key={index} href={`/blogs/${record.id}`}>{record.title}</Link>
-            })}
+            <Box sx={{
+                display: "flex",
+                flexFlow: "column nowrap",
+                width: "100%",
+                marginTop: "2em",
+                gap: "1em"
+            }}>
+                <Typography variant="h2" sx={{textAlign: "center"}}>Recent Posts</Typography>
+                <Box sx={{
+                    display: "flex",
+                    gap: "3em",
+                    width: "100%",
+                    justifyContent: "center"
+                }}>
+                    {data.slice(0,2).map((rec:any) => {
+                        return (
+                            <ImageCard imageLink={`/blogs/${rec.$id}`} img={rec.cover_img} alt={rec.title} imgPlacement="vertical" 
+                            headerEl={
+                                <Box sx={{
+                                    display:"flex",
+                                    flexFlow: "row nowrap",
+                                    gap: "1em",
+                                    alignItems: "center"
+                                }}>
+                                    <Tooltip placement="top" title={rec.author}>
+                                        <Avatar sx={{backgroundColor: pickRandFromArr(bgColorsBlack),color: "black", boxShadow: 3}}>{rec.author.slice(0,1)}</Avatar>
+                                    </Tooltip>
+                                    <Box>
+                                        <Typography sx={{fontWeight: "600"}}>{rec.title}</Typography>
+                                        <Typography>{new Date(rec.publish_date).toLocaleDateString()}</Typography>
+                                    </Box>
+                                </Box>
+                            } mainBoxSx={{width:"min-content"}}>
+                                <Link href={`/blogs/${rec.$id}`}>
+                                    <Typography>{getFirst100char(rec.post)}...</Typography>
+                                </Link>
+                            </ImageCard>
+                        )
+                    })}
+                </Box>
+            </Box>
         </div>
     )
 }
 
 export async function getStaticProps() {
-    const data = (await pb.collection('blogs').getList()).items.map(record => record.export())
+    const data = (await databases.listDocuments(DATABASE_ID,BLOG_ID)).documents
     return {
         props: {
             data

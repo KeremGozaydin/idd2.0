@@ -1,7 +1,8 @@
 import { Theme } from "@emotion/react";
 import { Box, SxProps } from "@mui/material";
 import Image from "next/image";
-import { PropsWithChildren } from "react";
+import Link from "next/link";
+import { PropsWithChildren, ReactNode } from "react";
 
 interface sizeprop {
     height: string,
@@ -14,11 +15,13 @@ interface ColumnCard extends PropsWithChildren{
     imgPlacement?: 'left' | 'right' | "vertical",
     mainBoxSx?: SxProps<Theme>,
     contentBoxSx?: SxProps<Theme>,
-    size?: sizeprop
+    size?: sizeprop,
+    headerEl?: ReactNode,
+    imageLink?: string
 }
 
 export default function ImageCard(props: ColumnCard) {
-    const {img,alt,children,imgPlacement,mainBoxSx,contentBoxSx,size} = props
+    const {img,alt,children,imgPlacement,mainBoxSx,contentBoxSx,size,headerEl,imageLink} = props
     return (
         <>
             <Box sx={{
@@ -35,13 +38,22 @@ export default function ImageCard(props: ColumnCard) {
                 height: "fit-content",
                 ...mainBoxSx
             }}>
+                {headerEl}
                 <Box sx={{
                     border: '0',
                     width: size?.width ?? '300px',
                     height: size?.height ?? '300px',
                     position: "relative"
                 }}>
+                    {
+                    imageLink 
+                    ?  
+                    <Link href={imageLink}>
+                        <Image src={img} alt={alt} fill style={{borderRadius: '1em'}}/>
+                    </Link> 
+                    : 
                     <Image src={img} alt={alt} fill style={{borderRadius: '1em'}}/>
+                    }
                 </Box>
                 {          
                     children ?    
