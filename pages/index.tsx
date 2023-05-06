@@ -33,6 +33,17 @@ const projelerExamples = [
   }
 ]
 
+const BlogExamples = [
+  {
+    text: "Sürdürülebilir ekolojik yaşam",
+    image: "/media/sürdürülebilir.jpeg"
+  },
+  {
+    text: "Yedinci kitayla tanıştınız mı?",
+    image: "/media/7.kita.jpeg"
+  }
+]
+
 export default function Home() {
   const router = useRouter();
 
@@ -73,6 +84,8 @@ export default function Home() {
         
         <Typography variant='h4'>Our Blog!</Typography>
         <Typography>You can check our latest blog posts here!</Typography>
+
+        <PreviewBox buttonText='Check our Blog!' data={BlogExamples} pagePath='/blog'/>
 
       </div>
     </>

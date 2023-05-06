@@ -42,7 +42,7 @@ export default function BlogPage({data}: any) {
                                 </Box>
                             } mainBoxSx={{width:"min-content"}}>
                                 <Link href={`/blogs/${rec.$id}`}>
-                                    <Typography>{getFirst100char(rec.post)}...</Typography>
+                                    <Typography>{getFirst100char(rec.post_in_str)}...</Typography>
                                 </Link>
                             </ImageCard>
                         )

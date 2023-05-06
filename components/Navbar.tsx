@@ -19,11 +19,6 @@ let navlinks: navlinks = {
       "tooltip": "Home Page!",
       "path": "/"
     },
-    "/faq": {
-      "text": "FAQ",
-      "tooltip": "Frequently Asked Questions!",
-      "path": "/faq"
-    },
     "/about": {
       "text": "About Us",
       "tooltip": "Questions You Might Have For Us!",
@@ -50,6 +45,12 @@ export default function NavBar() {
     const context = useContext(GlobalContext);
     const router = useRouter();
 
+    useEffect(() => {
+        Object.keys(navlinks).map((obj) => {
+            console.log(navlinks[obj].text)
+        })
+    },[])
+
     const [navMenuAnchorEl, setNavMenuAnchorEl] = useState<null | HTMLElement>();
 
     let menuOpen = Boolean(navMenuAnchorEl);
@@ -61,9 +62,6 @@ export default function NavBar() {
         setNavMenuAnchorEl(null);
     };
 
-    useEffect(() => {
-        console.log(router.route.split('/')[1]);
-    },[])
     return (
         <>
             <AppBar color="secondary">
@@ -72,42 +70,28 @@ export default function NavBar() {
                     <MenuIcon sx={{color: 'primary.main'}}/>
                 </IconButton>
 
-                <Typography sx={{flexGrow: 1}} variant="h6">{router.route.split('/')[1] === '' ? 'home' : router.route.split('/')[1]}</Typography>
+                <Typography sx={{flexGrow: 1}} variant="h6">{navlinks[router.route].text}</Typography>
                 <Menu 
-                    open={menuOpen} 
+                    open={menuOpen}    
                     anchorEl={navMenuAnchorEl}
                     onClose={handleMainMenuClose}
                 >
-                    {Object.values(navlinks).map((link:any,index:number) => 
-                        router.asPath !== link.path ? 
+                    {Object.keys(navlinks).map((link:any,index:number) => 
+                        router.asPath !== navlinks[link]["path"] ? 
                         (
                             <Link 
                                 key={index}
                                 style={{flexGrow: 1}} 
                                 onClick={handleMainMenuClose} 
-                                href={link.path}
+                                href={navlinks[link]["path"]}
                             >
                                 <MenuItem>
-                                {link.text}
+                                {navlinks[link]["text"]}
                                 </MenuItem>
                             </Link>
                         ) : ''
                     )}
                 </Menu>
-                {
-                    context.user !== undefined ?
-                    <>
-                        <Tooltip title={context.user.userName}>
-                            <Avatar sx={{bgcolor: 'primary.main', color: 'secondary.main', fontWeight: "600", mr: 2}}>
-                                {context.user.userName?.slice(0,1)}
-                            </Avatar>
-                        </Tooltip>
-                        <Button variant="contained">
-                            Log Out
-                        </Button>
-                    </> : 
-                        <Typography>Log In</Typography>
-                }
                 </Toolbar>
             </AppBar>
         </>
