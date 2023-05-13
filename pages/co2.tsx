@@ -1,6 +1,82 @@
 import { GlobalContext } from "@/context/global";
 import { Box, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import { useContext } from "react";
+
+interface anyany {
+    [key: string]: any
+}
+
+let enENText:anyany = {
+    headers: {
+        h3: "Welcome!",
+        h5: "to our CO2 Emissions Estimate Calculator!",
+    },
+    textFields: {
+        electricity: {
+            id: "electricity",
+            label: "Electricity",
+            helperText: "Please enter how much electricity you use in a month in kwh.",
+        },
+        naturalGas: {
+            id: "naturalGas",
+            label: "Natural Gas",
+            helperText: "Please enter how much natural gas you use in a month in m^3. Skip if you don't use gas.",
+        },
+        carFuel: {
+            id: "carFuel",
+            label: "Car Fuel",
+            helperText: "Please enter how much fuel you use in a month in liters. Skip if you don't use a car.",
+        },
+        eatingStyle: {
+            id: "eatingStyle",
+            label: "Eating Style",
+            helperText: "Please select your eating style.",
+        }
+    },
+    resultText: {
+        good: "You are doing great!",
+        average: "Right around the average.",
+        bad: "You should consider reducing your emissions!"
+    },
+    result: "Result is "
+}
+
+let trTRText:anyany = {
+    headers: {
+        h3: "Hoşgeldiniz!",
+        h5: "CO2 Emisyon Tahmin Hesaplayıcımıza hoşgeldiniz!",
+    },
+    textFields: {
+        electricity: {
+            id: "electricity",
+            label: "Elektrik",
+            helperText: "Lütfen bir ayda kullandığınız elektrik miktarını kwh cinsinden giriniz.",
+        },
+        naturalGas: {
+            id: "naturalGas",
+            label: "Doğal Gaz",
+            helperText: "Lütfen bir ayda kullandığınız doğal gaz miktarını m^3 cinsinden giriniz. Doğal gaz kullanmıyorsanız boş bırakınız.",
+        },
+        carFuel: {
+            id: "carFuel",
+            label: "Araba Yakıtı",
+            helperText: "Lütfen bir ayda kullandığınız araba yakıtı miktarını litre cinsinden giriniz. Araba kullanmıyorsanız boş bırakınız.",
+        },
+        eatingStyle: {
+            id: "eatingStyle",
+            label: "Yeme Stili",
+            helperText: "Lütfen yeme stilinizi seçiniz.",
+        }
+    },
+    resultText: {
+        good: "Çok iyi gidiyorsunuz!",
+        average: "Ortalama civarındasınız.",
+        bad: "Emisyonlarınızı azaltmayı düşünmelisiniz!"
+    },
+    result: "Sonuç "
+}
+
 
 let values:
 {
@@ -13,25 +89,31 @@ let values:
 
 let eatingStyle = [
 {
-    label: "Select",
+    labelEn: "Select",
+    labelTr: "Seçiniz",
     value: 0
 },
 {
-    label: "Vegan",
+    labelEn: "Vegan",
+    labelTr: "Vegan",
     value: 1059
 },
 {
-    label: "Vegetarian",
+    labelEn: "Vegetarian",
+    labelTr: "Vejetaryen",
     value: 1387
 },
 {
-    label: "Omnivore",
+    labelEn: "Omnivore",
+    labelTr: "Omnivor",
     value: 2372
 }
 ]
 
 export default function CO2() {
-    let {setCo2Values, co2Values} = useContext(GlobalContext);
+    let {locale} = useRouter();
+    let usedText = locale === "en-EN" ? enENText : trTRText;
+    let {setCo2Values, co2Values, co2Result} = useContext(GlobalContext);
     let handleEatingStyleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.value) return
         setCo2Values({...co2Values, [event.target.id]: parseInt(event.target.value)})
@@ -50,8 +132,8 @@ export default function CO2() {
                 gap: "1em",
                 marginTop: "2em"
             }}>
-                <Typography variant="h3">Welcome!</Typography>
-                <Typography variant="h5">to our CO2 Emissions Estimate Calculator!</Typography>
+                <Typography variant="h3">{usedText["headers"].h3}</Typography>
+                <Typography variant="h5">{usedText["headers"].h5}</Typography>
                 <Box sx={{
                         display: "flex",
                         flexFlow: "column nowrap",
@@ -59,41 +141,31 @@ export default function CO2() {
                         border: "1px solid black",
                         boxShadow: 4,
                         width: "500px",
-                        height: "500px",
                         padding: "2em",
                         borderRadius: "10px",
                         gap:"1em"
                 }}>
-                    <TextField
-                        id="electricity"
-                        label="Electricity"
-                        variant="outlined"
-                        helperText="Please enter how much electricity you use in a month in kwh."
-                        onChange={handleChange}
-                        type="number"
-                    />
-                    <TextField 
-                        id="naturalGas"
-                        label="Natural Gas"
-                        variant="outlined"
-                        helperText="Please enter how much natural gas you use in a month in m^3. Skip if you don't use gas."
-                        onChange={handleChange}
-                        type="number"
-                    />
-                    <TextField 
-                        id="carFuel"
-                        label="Car Fuel"
-                        variant="outlined"
-                        helperText="Please enter how much fuel you use in a month in liters. Skip if you don't use a car."
-                        onChange={handleChange}
-                        type="number"
-                    />
+                    {
+                        Object.keys(usedText["textFields"]).map((key,index) => {
+                            if (index === 3) return 
+                            return (
+                                <TextField 
+                                    key={key}
+                                    id={usedText["textFields"][key].id}
+                                    label={usedText["textFields"][key].label}
+                                    variant="outlined"
+                                    helperText={usedText["textFields"][key].helperText}
+                                    onChange={handleChange}
+                                />
+                            )
+                        })
+                    }
                     <TextField 
                         id="eatingStyle"
                         select
-                        label="Eating Style"
+                        label={usedText["textFields"]["eatingStyle"].label}
                         variant="outlined"
-                        helperText="Please select your eating style."
+                        helperText={usedText["textFields"]["eatingStyle"].helperText}
                         onChange={handleEatingStyleChange}
                         SelectProps={{
                             native: true,
@@ -101,19 +173,20 @@ export default function CO2() {
                     >
                         {eatingStyle.map((option) => {
                             return (
-                                <option key={option.label} value={option.value}>
-                                    {option.label}
+                                <option value={option.value}>
+                                    {locale === "en-US" ? option.labelEn: option.labelTr}
                                 </option>
                             )
                         })
                         }
                     </TextField>
                 </Box>
-                <Typography variant="h3">Result is {Math.round(Object.keys(co2Values).reduce((a,b) => a + co2Values[b],0) * 100)/100}</Typography>
+                <Typography variant="h3">{usedText["result"]}{Math.round((co2Result * 100))/100}</Typography>
                 <Typography>{
-                    Math.round(Object.keys(co2Values).reduce((a,b) => a + co2Values[b],0) * 100)/100 < 5000 ? "You are doing great!" :
-                    Math.round(Object.keys(co2Values).reduce((a,b) => a + co2Values[b],0) * 100)/100 < 8000 ? "Right around the average." :
-                    "You should consider reducing your emissions!"
+                    co2Result === 0 ? "" :
+                    Math.round((co2Result * 100))/100 < 8000 ? usedText["resultText"].good :
+                    Math.round((co2Result * 100))/100 < 12000 ? usedText["resultText"].average :
+                    usedText["resultText"].bad
                 }</Typography>
             </Box>
         </div>

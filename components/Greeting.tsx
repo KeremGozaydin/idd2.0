@@ -1,5 +1,4 @@
-import { Height } from "@mui/icons-material"
-import { Card, CardContent, CardMedia, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import Image from "next/image"
 
