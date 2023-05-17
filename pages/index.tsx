@@ -6,46 +6,90 @@ import PreviewBox from '@/components/Preview';
 const uyelerExamples = [
   {
     image : "/media/aydan.webp",
-    text : "Aydan Cemre Comba"
+    textTr : "Aydan Cemre Comba",
+    textEn : "Aydan Cemre Comba"
   },
   {
     image : "/media/ibrahim.webp",
-    text : "İbrahim Musan"
+    textTr : "İbrahim Musan",
+    textEn: "İbrahim Musan"
   },
   {
     image : "/media/defne.webp",
-    text : "Defne Deniz Özek"
+    textTr : "Defne Deniz Özek",
+    textEn : "Defne Deniz Özek"
   }
 ]
 
 const projelerExamples = [
   {
-    text: "Asansör Otopark Sistemi",
+    textTr: "Asansör Otopark Sistemi",
+    textEn: "Elevator Parking System",
     image: "/media/asansör.webp"
   },
   {
-    text: "Kaliforniya Solucani ile Tarim",
+    textTr: "Kaliforniya Solucani ile Tarim",
+    textEn: "Farming with California Worms",
     image: "/media/solucan.webp"
   },
   {
-    text: "Tahta Solar Panel",
+    textTr: "Tahta Solar Panel",
+    textEn: "Wooden Solar Panel",
     image: "/media/Gunes-Paneli-Acisi.webp"
   }
 ]
 
-const BlogExamples = [
+const blogExamples = [
   {
-    text: "Sürdürülebilir ekolojik yaşam",
+    textTr: "Sürdürülebilir ekolojik yaşam",
+    textEn: "Sustainable ecological life",
     image: "/media/sürdürülebilir.jpeg"
   },
   {
-    text: "Yedinci kitayla tanıştınız mı?",
+    textTr: "Yedinci kitayla tanıştınız mı?",
+    textEn: "Have you met the seventh continent?",
     image: "/media/7.kita.jpeg"
   }
 ]
 
+interface texts {
+  [key: string]: {
+    welcome: string,
+    projects: string,
+    projectsButton: string,
+    team: string,
+    teamsButton: string,
+    blog: string,
+    blogButton: string
+  }
+}
+
+const texts:texts = {
+  "tr-TR": {
+    welcome: "IDD (Iklim Degismeden Degis) resmi web sitesine hoşgeldiniz!!!",
+    projects: "Projelerimizi görmek için butona tıklayın!",
+    projectsButton: "Projelerimiz",
+    team: "Takımımızı görmek için butona tıklayın!",
+    teamsButton: "Takımımız",
+    blog: "Blogumuzu görmek için butona tıklayın!",
+    blogButton: "Blogumuz"
+  },
+  "en-US": {
+    welcome: "Welcome to the official website of IDD (Iklim Degismeden Degis)!!!",
+    projects: "Click the button to view our projects!",
+    projectsButton: "Our Projects",
+    team: "Click the button to see the whole team!",
+    teamsButton: "Our Team",
+    blog: "Click the button to see our blog!",
+    blogButton: "Our Blog"
+  }
+}
+
 export default function Home() {
   const router = useRouter();
+  //@ts-ignore
+  const text = texts[router.locale];
+
 
   return (
     <>
@@ -60,8 +104,8 @@ export default function Home() {
           gap: "0.5em",
           padding: "1em"
         }}>
-          <Typography variant='h3'>Welcome</Typography>
-          <Typography>Welcome to the official website of IDD (Iklim Degismeden Degis)!!!</Typography>
+          <Typography variant='h3'>{router.locale === "tr-TR" ? "Hosgeldiniz" : "Welcome"}</Typography>
+          <Typography>{text.welcome}</Typography>
         </Box>
 
         {/* LOGO */}
@@ -70,22 +114,22 @@ export default function Home() {
 
         {/* Projects */}
 
-        <Typography variant="h4" >Projects!</Typography>
-        <Typography sx={{marginBottom: "0.5em"}}>Click the button to view our projects!</Typography>
+        <Typography variant="h4" >{router.locale === "tr-TR"? "Projelerimize göz gezdirin!" : "Check our projects out!"}</Typography>
+        <Typography sx={{marginBottom: "0.5em"}}>{text.projects}</Typography>
 
-        <PreviewBox buttonText='View our Projects!' data={projelerExamples} pagePath='/projects'/> 
+        <PreviewBox buttonText={text.projectsButton} data={projelerExamples} pagePath='/projects'/> 
         
         {/* Team */}
         
-        <Typography variant="h4" >Meet our Team!</Typography>
-        <Typography sx={{marginBottom: "0.5em"}}>Click the button to see the whole team!</Typography>
+        <Typography variant="h4" >{router.locale === "tr-TR" ? "Takimiza göz gezdirin" : "Check our team out!"}</Typography>
+        <Typography sx={{marginBottom: "0.5em"}}>{text.team}</Typography>
 
-        <PreviewBox buttonText='Meet our Team!' data={uyelerExamples} pagePath='/about' excited={true}/>
+        <PreviewBox buttonText={text.teamsButton} data={uyelerExamples} pagePath='/about' excited={true}/>
         
-        <Typography variant='h4'>Our Blog!</Typography>
-        <Typography>You can check our latest blog posts here!</Typography>
+        <Typography variant='h4'>{router.locale === "tr-TR" ? "Blogumuza göz gezdirin" : "Check our blog out!"}</Typography>
+        <Typography>{text.blog}</Typography>
 
-        <PreviewBox buttonText='Check our Blog!' data={BlogExamples} pagePath='/blog'/>
+        <PreviewBox buttonText={text.blogButton} data={blogExamples} pagePath='/blog'/>
 
       </div>
     </>

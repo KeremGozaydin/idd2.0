@@ -5,7 +5,8 @@ import { useState } from "react"
 
 interface PreviewExample {
     image: string,
-    text: string
+    textTr: string,
+    textEn: string
 }
 
 interface PreviewBox {
@@ -46,7 +47,7 @@ export default function PreviewBox({data,buttonText,pagePath,excited}: PreviewBo
                             imgPlacement={"vertical"}
                             mainBoxSx={{height: "300px", textAlign: "center"}}
                             >
-                        <Typography>{element.text}{excited && "!"}</Typography>
+                        <Typography>{router.locale === "tr-TR" ? element.textTr : element.textEn}{excited && "!"}</Typography>
                         </ColumnCard>
                     )
                 })}

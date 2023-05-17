@@ -1,6 +1,28 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/router";
+
+const texts = {
+    "tr-TR": {
+        "title": "Bize Ulasin!",
+        "subject": "Konu",
+        "body": "Mesaj",
+        "send": "Gonder"
+    },
+    "en-US": {
+        "title": "Get in contact with us!",
+        "subject": "Subject",
+        "body": "Message",
+        "send": "Send"
+    }
+}
 
 export default function Contacts() {
+
+    const router = useRouter();
+
+    //@ts-ignore
+    const text = texts[router.locale];
+
     return (
         <Box sx={{
             display: 'flex',
@@ -16,7 +38,9 @@ export default function Contacts() {
             gap: '2em',
             maxWidth: '768px'
         }}>
-            <Typography variant="h4">Get in contact with us!</Typography>
+            <Typography variant="h4">
+                {text["title"]}
+            </Typography>
             <form action={"mailto:idd@gmail.com"} method='get' encType="text/plain">
                 <Box sx={{
                     display: 'flex',
@@ -26,8 +50,8 @@ export default function Contacts() {
                 }}>
                     <TextField 
                         type='text'
-                        placeholder="Enter the subject"
-                        label='Subject'
+                        placeholder={text["subject"]}
+                        label={text["subject"]}
                         variant="outlined"
                         fullWidth
                         required
@@ -39,8 +63,8 @@ export default function Contacts() {
                     />
                     <TextField 
                         type=''
-                        placeholder="Enter the body"
-                        label='Body'
+                        placeholder={text["body"]}
+                        label={text["body"]}
                         variant="outlined"
                         fullWidth
                         multiline
@@ -54,7 +78,7 @@ export default function Contacts() {
                         width: '12em',
                         paddingY: '0.75em'
                     }} variant="outlined" type='submit'>
-                        Send
+                        {text["send"]}
                     </Button>
                 </Box>
             </form>

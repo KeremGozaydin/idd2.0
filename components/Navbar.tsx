@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
+import { Box, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import MenuIcon from '@mui/icons-material/Menu'
 import { useContext, useEffect, useState } from "react"
@@ -103,7 +103,7 @@ export default function NavBar() {
                 }
                 <Tooltip title={router.locale === "en-US" ? `Change the language to turkish?` : "Dili ingilizceye cevir?"}>
                     <IconButton sx={{fontSize: "1.25em"}} size="large">
-                        <Link href="/" locale={router.locale === "en-US" ? "tr-TR" : "en-US"}>
+                        <Link href={router.asPath} locale={router.locale === "en-US" ? "tr-TR" : "en-US"}>
                             {router.locale === "en-US" ? "EN" : "TR"}
                         </Link>
                     </IconButton>
