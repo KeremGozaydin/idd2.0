@@ -12,7 +12,6 @@ import Navbar from '@/components/Navbar';
 import { GlobalContextProvider } from '@/context/global';
 import { Footer } from '@/components/Footer';
 import Contacts from '@/components/Contacts';
-import { Title } from '@mui/icons-material';
 
 
 // Client-side cache, shared for the whole session of the user in the browser.

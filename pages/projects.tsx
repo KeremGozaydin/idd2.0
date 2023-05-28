@@ -1,8 +1,18 @@
 import ImageCard from "@/components/ColumnCard"
 import { DATABASE_ID, PROJECTS_ID, databases } from "@/lib/appwrite"
-import pb from "@/lib/base"
 import { Box, Link, Typography } from "@mui/material"
-import { useEffect } from "react"
+import { useRouter } from "next/router"
+import {localeTrans,useLocaleText} from "@/components/translateHooks"
+
+let tr = {
+    welcome: "Projeler!",
+    projects: "Projelerimizi buradan inceleyebilirsiniz.",
+}
+
+let en = {
+    welcome: "Projects!",
+    projects: "You can browse through our projects here.",
+}
 
 interface ProjectInfo {
     collectionId: string,
@@ -12,6 +22,7 @@ interface ProjectInfo {
     img_link: string,
     link: string,
     name: string,
+    name_en: string,
     updated: string
 }
 
@@ -20,15 +31,13 @@ interface ProjectsPage {
 }
 
 export default function Projects({data}: ProjectsPage) {
-    useEffect(() => {
-        console.log(data)
-    })
+    let text = useLocaleText(tr,en)
 
     return (
         <>
             <div className="page">
-                <Typography variant="h4">Welcome to our projects page!</Typography>
-                <Typography>Here you can browse through our projects!</Typography>
+                <Typography variant="h4">{text["welcome"]}</Typography>
+                <Typography>{text["projects"]}</Typography>
                 <Box sx={{
                     display: "flex",
                     gap: "5em",
@@ -39,10 +48,10 @@ export default function Projects({data}: ProjectsPage) {
                     flexWrap: "wrap",
                 }}>     
                     {
-                        data.map(({img_link,name,link}) => {
+                        data.map(({img_link,name, name_en,link}) => {
                             return (
-                                <ImageCard imgPlacement="vertical" img={img_link} alt={name} size={{height: "400px", width: "400px"}}>
-                                    <Typography><Link underline="hover" color="blueviolet" href={link}>{name}</Link>!</Typography>
+                                <ImageCard imgPlacement="vertical" img={img_link} alt={localeTrans(name,name_en)} size={{height: "400px", width: "400px"}}>
+                                    <Typography><Link underline="hover" color="blueviolet" href={link}>{localeTrans(name,name_en)}</Link>!</Typography>
                                 </ImageCard>
                             )
                         })

@@ -1,9 +1,10 @@
 import { Box, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import MenuIcon from '@mui/icons-material/Menu'
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import Link from "next/link"
 import { GlobalContext } from "@/context/global"
+import { localeTrans, useLocaleText } from "./translateHooks"
 
 interface navlinks {
     [index:string]: {
@@ -42,9 +43,7 @@ let navlinks: navlinks = {
 }
 
 export default function NavBar() {
-    const context = useContext(GlobalContext);
     const router = useRouter();
-
     const [navMenuAnchorEl, setNavMenuAnchorEl] = useState<null | HTMLElement>();
 
     let menuOpen = Boolean(navMenuAnchorEl);
@@ -77,7 +76,7 @@ export default function NavBar() {
                         <MenuIcon sx={{color: 'primary.main'}}/>
                     </IconButton>
 
-                    <Typography variant="h6">{router.locale === "en-US" ? navlinks[router.route]["textEn"] : navlinks[router.route]["textTr"]}</Typography>
+                    <Typography variant="h6">{localeTrans(navlinks[router.route]["textTr"],navlinks[router.route]["textEn"])}</Typography>
                     <Menu 
                         open={menuOpen}    
                         anchorEl={navMenuAnchorEl}
@@ -92,7 +91,7 @@ export default function NavBar() {
                                     href={navlinks[link]["path"]}
                                 >
                                     <MenuItem>
-                                    {router.locale === "en-US" ? navlinks[link]["textEn"]: navlinks[link]["textTr"]}
+                                    {localeTrans(navlinks[link]["textTr"],navlinks[link]["textEn"])}
                                     </MenuItem>
                                 </Link>
                             ) : ''
@@ -101,10 +100,10 @@ export default function NavBar() {
                 </Box>
                 {// create a button to change locale}
                 }
-                <Tooltip title={router.locale === "en-US" ? `Change the language to turkish?` : "Dili ingilizceye cevir?"}>
+                <Tooltip title={localeTrans("Dili ingilizceye cevir?",`Change the language to turkish?`)}>
                     <IconButton sx={{fontSize: "1.25em"}} size="large">
-                        <Link href={router.asPath} locale={router.locale === "en-US" ? "tr-TR" : "en-US"}>
-                            {router.locale === "en-US" ? "EN" : "TR"}
+                        <Link href={router.asPath} locale={router.locale === "tr-TR" ? "en-US" : "tr-TR"}>
+                            {localeTrans("TR","EN")}
                         </Link>
                     </IconButton>
                 </Tooltip>

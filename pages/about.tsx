@@ -1,11 +1,9 @@
 import { Box, Typography } from "@mui/material"
-import pb from "@/lib/base"
-import { useEffect, useState } from "react";
-import { Record } from "pocketbase";
 import ImageCard from "@/components/ColumnCard";
 import { IconLink } from "@/components/IconLink";
 import { LinkedIn, Mail } from "@mui/icons-material";
 import { DATABASE_ID, TEAM_MEMBERS_ID, databases } from "@/lib/appwrite";
+import { localeTrans } from "@/components/translateHooks";
 
 function capitalize(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -34,7 +32,7 @@ export default function AboutPage({uyeler}: {uyeler:any}) {
                         gap: "3em"
                     }}
                 >
-                    <Typography variant="h4">Meet our Team!</Typography>
+                    <Typography variant="h4">{localeTrans("Takimimizla Tanisin!","Meet our Team!")}</Typography>
                     <Box
                         sx={{
                             display: 'flex',
@@ -45,7 +43,7 @@ export default function AboutPage({uyeler}: {uyeler:any}) {
                     >
                         {
                             uyeler?.map((uye:any,index:number) => {
-                                let {img_link,isim,rol,social_links} = uye
+                                let {img_link,isim,rol,rol_en,social_links} = uye
                                 return (
                                 <ImageCard
                                     key={index}
@@ -61,7 +59,7 @@ export default function AboutPage({uyeler}: {uyeler:any}) {
                                     }}
                                 >
                                     <Typography sx={{fontWeight: "500"}} variant="h5">{isim}</Typography>
-                                    <Typography>{rol}</Typography>
+                                    <Typography>{localeTrans(rol,rol_en)}</Typography>
                                     <Box sx={{paddingTop: "1em"}}>
                                         {social_links.map((social:any,index:number) => {
 

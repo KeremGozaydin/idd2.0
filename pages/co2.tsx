@@ -1,3 +1,4 @@
+import { localeTrans, useLocaleText } from "@/components/translateHooks";
 import { GlobalContext } from "@/context/global";
 import { Box, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
@@ -111,8 +112,7 @@ let eatingStyle = [
 ]
 
 export default function CO2() {
-    let {locale} = useRouter();
-    let usedText = locale === "en-EN" ? enENText : trTRText;
+    let usedText = useLocaleText(trTRText, enENText);
     let {setCo2Values, co2Values, co2Result} = useContext(GlobalContext);
     let handleEatingStyleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.value) return
@@ -174,7 +174,7 @@ export default function CO2() {
                         {eatingStyle.map((option) => {
                             return (
                                 <option value={option.value}>
-                                    {locale === "en-US" ? option.labelEn: option.labelTr}
+                                    {localeTrans(option.labelTr,option.labelEn)}
                                 </option>
                             )
                         })

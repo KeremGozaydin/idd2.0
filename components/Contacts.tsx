@@ -1,27 +1,23 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useRouter } from "next/router";
+import { useLocaleText } from "./translateHooks";
 
-const texts = {
-    "tr-TR": {
-        "title": "Bize Ulasin!",
-        "subject": "Konu",
-        "body": "Mesaj",
-        "send": "Gonder"
-    },
-    "en-US": {
-        "title": "Get in contact with us!",
-        "subject": "Subject",
-        "body": "Message",
-        "send": "Send"
-    }
+const tr = {
+    "title": "Bize Ulasin!",
+    "subject": "Konu",
+    "body": "Mesaj",
+    "send": "Gonder"
+}
+
+const en = {
+    "title": "Get in contact with us!",
+    "subject": "Subject",
+    "body": "Message",
+    "send": "Send"
 }
 
 export default function Contacts() {
 
-    const router = useRouter();
-
-    //@ts-ignore
-    const text = texts[router.locale];
+    const text = useLocaleText(tr,en);
 
     return (
         <Box sx={{
