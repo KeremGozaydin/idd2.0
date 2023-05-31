@@ -39,6 +39,11 @@ let navlinks: navlinks = {
       "textEn": "CO2",
       "textTr": "CO2",
       "path": "/co2"
+    },
+    '/blogs/[post]': {
+        "textEn": "Blog",
+        "textTr": "Blog",
+        "path": "/blogs/[post]"
     }
 }
 
@@ -76,7 +81,9 @@ export default function NavBar() {
                         <MenuIcon sx={{color: 'primary.main'}}/>
                     </IconButton>
 
-                    <Typography variant="h6">{localeTrans(navlinks[router.route]["textTr"],navlinks[router.route]["textEn"])}</Typography>
+                    <Typography variant="h6">{
+                        localeTrans(navlinks[router.route].textTr,navlinks[router.route].textEn)
+                    }</Typography>
                     <Menu 
                         open={menuOpen}    
                         anchorEl={navMenuAnchorEl}

@@ -9,7 +9,7 @@ client
     .setProject('643140a0d02a08699714') // Your project ID
 ;
 
-export const DATABASE_ID = "6431419b47ec2993715e";
+export const DATABASE_ID = '6431419b47ec2993715e';
 
 export const TEAM_MEMBERS_ID = "643142d9bffa333d631d";
 

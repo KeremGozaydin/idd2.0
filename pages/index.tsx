@@ -26,17 +26,17 @@ const projelerExamples = [
   {
     textTr: "Asansör Otopark Sistemi",
     textEn: "Elevator Parking System",
-    image: "/media/asansör.webp"
+    image: "/media/oto_asansör.webp"
   },
   {
-    textTr: "Kaliforniya Solucani ile Tarim",
+    textTr: "Kalifornisya Solucani ile Tarim",
     textEn: "Farming with California Worms",
     image: "/media/solucan.webp"
   },
   {
     textTr: "Tahta Solar Panel",
     textEn: "Wooden Solar Panel",
-    image: "/media/Gunes-Paneli-Acisi.webp"
+    image: "/media/günes_paneli.webp"
   }
 ]
 

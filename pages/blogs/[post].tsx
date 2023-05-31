@@ -1,19 +1,16 @@
+import { localeTrans } from "@/components/translateHooks"
 import { BLOG_ID, DATABASE_ID, databases } from "@/lib/appwrite"
-import { bgColorsBlack, pickRandFromArr } from "@/lib/usefulFunctions"
 import { Avatar, Box, Tooltip, Typography } from "@mui/material"
-import { Query } from "appwrite"
-import { useEffect } from "react"
 
-export default function BlogPost(props:any){
-    useEffect(() => {
-       console.log(props.data) 
-    },[])
+export default function BlogPost({data}:any){
 
-    let {author,title,post} = props.data
+    let {author,title,post} = data
     return (
         <div className="page">
             <Typography sx={{marginTop: "1em"}} variant="h3">{title}</Typography>
-            <Typography sx={{fontStyle: "italic"}}>Written by {author}</Typography>
+            <Typography sx={{fontStyle: "italic"}}>
+                {localeTrans(author + ` tarafından yazıldı`, `Written by ` + author)}
+            </Typography>
             <Box sx={{
                 width: "max(70%,300px)",
                 borderRadius: "0.5em",
@@ -35,19 +32,28 @@ export default function BlogPost(props:any){
 
 }
 
-export async function getStaticPaths() {
-    const paths = (await databases.listDocuments(DATABASE_ID,BLOG_ID)).documents.map((rec) => ({params: {post: rec.$id}}))
+
+export async function getStaticPaths(){ 
+    let posts = await databases.listDocuments(DATABASE_ID, BLOG_ID)
+    let paths = posts.documents.map(post => {
+        return {
+            params: {
+                post: post.$id
+            }
+        }
+    })
     return {
         paths,
-        fallback: false 
+        fallback: true
     }
 }
 
-export async function getStaticProps({params}:any) {
-    const data = (await databases.listDocuments(DATABASE_ID,BLOG_ID,[Query.equal("$id",params.post)])).documents[0]
+export async function getStaticProps({params}:any){
+    console.log(params)
+    let post = await databases.getDocument(DATABASE_ID, BLOG_ID, params.post)
     return {
         props: {
-            data
+            data: post
         }
     }
 }
